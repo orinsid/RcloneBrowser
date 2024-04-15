@@ -431,8 +431,7 @@ void MainWindow::rcloneGetVersion() {
                     ". Mount will be disabled. \n\nPlease consider upgrading.");
           };
 #endif
-
-          QStringList lines = version.split("\n", QString::SkipEmptyParts);
+          QStringList list = str.split(':', Qt::SkipEmptyParts);
           QString rclone_info2;
           QString rclone_info3;
 
@@ -1214,9 +1213,8 @@ void MainWindow::addStream(const QString &remote, const QString &stream) {
   ui.jobs->insertWidget(1, line);
   ui.tabs->setTabText(1, QString("Jobs (%1)").arg(++mJobCount));
 
-  player->start(stream, QProcess::ReadOnly);
+  player->start(stream, QIODevice::ReadOnly);
   UseRclonePassword(rclone);
-  rclone->start(GetRclone(),
-                QStringList() << "cat" << GetRcloneConf() << remote,
-                QProcess::WriteOnly);
+  rclone->start(GetRclone(), QStringList() << "cat" << GetRcloneConf() << remote, QIODevice::WriteOnly);
+
 }
